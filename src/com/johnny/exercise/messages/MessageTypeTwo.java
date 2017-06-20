@@ -2,14 +2,14 @@ package com.johnny.exercise.messages;
 
 public class MessageTypeTwo extends Message{
 	
-	private int numberofOccurrance;
+	private int quantity;
 
 	public int getNumberofOccurrance() {
-		return numberofOccurrance;
+		return quantity;
 	}
 
 	public void setNumberofOccurrance(int numberofOccurrance) {
-		this.numberofOccurrance = numberofOccurrance;
+		this.quantity = numberofOccurrance;
 	}
 
 }
