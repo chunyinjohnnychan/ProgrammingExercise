@@ -11,40 +11,55 @@ import com.johnny.exercise.sales.Sale;
 public class SaleReport {
 
 	private ArrayList<Message> messageList;
-	HashMap<String, SaleReportObject> productHashMap;
+	private static HashMap<String, SaleReportObject> productHashMap;
 
 	public SaleReport(ArrayList<Message> _messageList){
-		for (Message msg : _messageList){
-			this.messageList.add();
-		}
+		this.messageList.addAll(_messageList);
 	}
 
-	public void calculate(){
+	public void calculate() throws Exception{
 
 		for (Message msg : this.messageList){
 
 			Sale tmpSale = msg.getSaleDetails();
 
-			if (msg.getClass() == MessageTypeOne.class){
-				if (!isProductTypeExistInMap(tmpSale)){
-					//record not exist
-					productHashMap.put(tmpSale.getProductType(), new SaleReportObject(tmpSale.getQuantity(),tmpSale.getQuantity()*tmpSale.getSalePrice()));
-				}else{
-					//record already exist
-					SaleReportObject tmp = productHashMap.get(tmpSale.getProductType());
-					tmp.setTotalValue(tmp.getTotalValue() + tmpSale.getSalePrice()*1);
+			if (msg.isProcessed() != true){
+				//only need to calculate unprocessed message
+				if (msg.getClass() == MessageTypeOne.class){
+					if (!isProductTypeExistInMap(tmpSale)){
+						//record not exist
+						productHashMap.put(tmpSale.getProductType(), new SaleReportObject(tmpSale.getQuantity(),tmpSale.getQuantity()*tmpSale.getSalePrice()));
+					}else{
+						//record already exist
+						SaleReportObject tmp = productHashMap.get(tmpSale.getProductType());
+						tmp.setTotalValue(tmp.getTotalValue() + tmpSale.getSalePrice()*1);
+						tmp.setQuantity(tmp.getQuantity()+tmpSale.getQuantity());
+					}
 				}
+				else if (msg.getClass() == MessageTypeTwo.class){
+					if (!isProductTypeExistInMap(tmpSale)){
+						//record not exist
+						productHashMap.put(tmpSale.getProductType(), new SaleReportObject(tmpSale.getQuantity(),tmpSale.getQuantity()*tmpSale.getSalePrice()));
+					}else{
+						//record already exist
+						SaleReportObject tmp = productHashMap.get(tmpSale.getProductType());
+						tmp.setTotalValue(tmp.getTotalValue() + tmpSale.getSalePrice()*tmpSale.getQuantity());
+						tmp.setQuantity(tmp.getQuantity()+tmpSale.getQuantity());
+					}
+				}else{
+					//MessageTypeThree
+					if (!isProductTypeExistInMap(tmpSale)){
+						//record not exist
+						throw new Exception("Type three message can't exist before having other type of messages");
+					}else{
+						//record already exist
+						SaleReportObject tmp = productHashMap.get(tmpSale.getProductType());
+						tmp.setTotalValue(tmp.getTotalValue() + tmpSale.getSalePrice()*tmpSale.getQuantity());
+						tmp.setQuantity(tmp.getQuantity()+tmpSale.getQuantity());
+					}
+				}
+				msg.setProcessed(true);
 			}
-			else if (msg.getClass() == MessageTypeTwo.class){
-
-			}else{
-				//MessageTypeThree
-			}
-			//			if (isProductTypeExistInMap(tmpSale)){
-			//				saleHashMap.put(tmpSale.getProductType(), tmpSale.getSalePrice());	
-			//			}else{
-			//
-			//			}
 		}
 	}
 

@@ -2,7 +2,7 @@ package com.johnny.exercise.messages;
 
 import com.johnny.exercise.sales.Sale;
 
-public abstract class Message {
+public class Message {
 
 	private Sale saleDetails;
 	private boolean isProcessed = false;
@@ -22,7 +22,5 @@ public abstract class Message {
 	public void setProcessed(boolean isProcessed) {
 		this.isProcessed = isProcessed;
 	}
-
-	public abstract Message clone();
 
 }
