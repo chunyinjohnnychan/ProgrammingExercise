@@ -55,28 +55,33 @@ public class MainProgram {
 
 					switch (messageType){
 					case 1:
-						Message tmpMsg1 = new MessageTypeOne();
-						Sale tmpsl1 = new Sale(messageValueList.get(1),Float.parseFloat(messageValueList.get(2)));
+						MessageTypeOne tmpMsg1 = new MessageTypeOne();
+						Sale tmpsl1 = new Sale(messageValueList.get(1),Float.parseFloat(messageValueList.get(2)),1);
 						tmpMsg1.setSaleDetails(tmpsl1);
 						pg.messageList.add(tmpMsg1);
 						break;
 					case 2:
-						Message tmpMsg2 = new MessageTypeTwo();
-						Sale tmpsl2 = new Sale(messageValueList.get(1),Float.parseFloat(messageValueList.get(2)));
+						MessageTypeTwo tmpMsg2 = new MessageTypeTwo();
+						Sale tmpsl2 = new Sale(messageValueList.get(1),Float.parseFloat(messageValueList.get(2)),Integer.parseInt(messageValueList.get(3)));
 						tmpMsg2.setSaleDetails(tmpsl2);
 						pg.messageList.add(tmpMsg2);
 						break;
 					case 3:
-						Message tmpMsg3 = new MessageTypeThree();
+						MessageTypeThree tmpMsg3 = new MessageTypeThree();
 
 						Sale tmpsl3 = null;
 						if (messageValueList.get(2) != null && messageValueList.get(2).length() != 0){
-							tmpsl3 = new Sale(messageValueList.get(1),Float.parseFloat(messageValueList.get(2)));
+							//for add and subtract
+							tmpsl3 = new Sale(messageValueList.get(1),Float.parseFloat(messageValueList.get(2)),-1);
 						}
 						else {
-							tmpsl3 = new Sale(messageValueList.get(1),-1);
+							//for multiply
+							tmpsl3 = new Sale(messageValueList.get(1),-1,-1);
+							tmpMsg3.setMultiplier(Float.parseFloat(messageValueList.get(5)));
 						}
 						tmpMsg3.setSaleDetails(tmpsl3);
+						tmpMsg3.setOperation(messageValueList.get(4));
+
 						pg.messageList.add(tmpMsg3);
 						break;
 					}
@@ -102,7 +107,7 @@ public class MainProgram {
 			}
 
 		}
-		//System.out.println(messageList);
+		//System.out.println(pg.messageList);
 		//pg.readAndParse();
 		//pg.process();
 	}
