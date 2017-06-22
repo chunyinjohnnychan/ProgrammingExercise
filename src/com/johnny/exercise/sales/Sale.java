@@ -1,5 +1,7 @@
 package com.johnny.exercise.sales;
 
+import java.text.DecimalFormat;
+
 public class Sale {
 
 	private String productType;
@@ -34,6 +36,24 @@ public class Sale {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	
+	@Override
+	public String toString(){
+		
+		DecimalFormat df = new DecimalFormat();
+		df.setMaximumFractionDigits(2);
+		df.setMinimumFractionDigits(2);
+		
+		String result = "";
+		result += "[";
+		result += " productType: " + this.productType;
+		result += " salePrice: " + df.format(this.salePrice);
+		result += " quantity: " + this.quantity;
+		result += "]";
+		
+		return result;
+		
 	}
 	
 }

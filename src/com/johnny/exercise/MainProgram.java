@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.apache.commons.io.FileUtils;
+
 import com.johnny.exercise.messages.Message;
 import com.johnny.exercise.messages.MessageTypeOne;
 import com.johnny.exercise.messages.MessageTypeThree;
 import com.johnny.exercise.messages.MessageTypeTwo;
+import com.johnny.exercise.reports.SaleReport;
 import com.johnny.exercise.sales.Sale;
 
 public class MainProgram {
@@ -19,9 +22,10 @@ public class MainProgram {
 	private static String INPUTFILEFOLDER = "C:/Users/johnn/git/ProgrammingExercise/InputFiles";
 	private static String OUTPUTFILEFOLDER = "C:/Users/johnn/git/ProgrammingExercise/OutputFiles";
 	private static int messageCount = 0;
-	private static final int SALEREPORTTRIGGER = 10;
+	private static final int SALEREPORTTRIGGER = 1;
 	private static final int ADJUSTMENTREPORTTRIGGER = 50;
 	private static final boolean isDebugModeOn = true;
+	private static SaleReport saleRpt;
 
 	public MainProgram(){
 		this.messageList = new ArrayList<Message>();
@@ -85,10 +89,16 @@ public class MainProgram {
 						pg.messageList.add(tmpMsg3);
 						break;
 					}
+
 					messageCount += 1;
 
 					if (messageCount % SALEREPORTTRIGGER == 0){
-
+						
+						try {
+							SaleReport.processData(pg.messageList);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 
 					if (messageCount % ADJUSTMENTREPORTTRIGGER == 0){
@@ -107,6 +117,7 @@ public class MainProgram {
 			}
 
 		}
+		
 		//System.out.println(pg.messageList);
 		//pg.readAndParse();
 		//pg.process();
