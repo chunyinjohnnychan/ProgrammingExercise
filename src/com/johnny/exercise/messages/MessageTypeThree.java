@@ -4,6 +4,7 @@ public class MessageTypeThree extends Message{
 
 	private String operation;
 	private float multiplier;
+	private boolean isProcessed = false;
 	
 	public static final String ADDOPERATION = "ADD";
 	public static final String SUBSTRACTOPERATION = "SUBTRACT";
@@ -24,6 +25,14 @@ public class MessageTypeThree extends Message{
 
 	public void setMultiplier(float multiplier) {
 		this.multiplier = multiplier;
+	}
+	
+	public boolean isProcessed() {
+		return isProcessed;
+	}
+
+	public void setProcessed(boolean isProcessed) {
+		this.isProcessed = isProcessed;
 	}
 	
 	

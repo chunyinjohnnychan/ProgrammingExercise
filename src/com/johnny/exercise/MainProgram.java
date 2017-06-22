@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -17,7 +18,7 @@ import com.johnny.exercise.sales.Sale;
 
 public class MainProgram {
 
-	private boolean running = true;
+	private boolean isRunning = true;
 	private ArrayList<Message> messageList = null;
 	private static String INPUTFILEFOLDER = "C:/Users/johnn/git/ProgrammingExercise/InputFiles";
 	private static String OUTPUTFILEFOLDER = "C:/Users/johnn/git/ProgrammingExercise/OutputFiles";
@@ -25,7 +26,6 @@ public class MainProgram {
 	private static final int SALEREPORTTRIGGER = 1;
 	private static final int ADJUSTMENTREPORTTRIGGER = 50;
 	private static final boolean isDebugModeOn = true;
-	private static SaleReport saleRpt;
 
 	public MainProgram(){
 		this.messageList = new ArrayList<Message>();
@@ -95,13 +95,15 @@ public class MainProgram {
 					if (messageCount % SALEREPORTTRIGGER == 0){
 						
 						try {
-							SaleReport.processData(pg.messageList);
+							HashMap<String, ArrayList<Sale>> saleReportHashMap = SaleReport.processData(pg.messageList);
+							SaleReport.generateReport(saleReportHashMap);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
 
 					if (messageCount % ADJUSTMENTREPORTTRIGGER == 0){
+						//HashMap<String, ArrayList<Message>> TypeThreeMessageHashMap = 
 
 					}
 				}
