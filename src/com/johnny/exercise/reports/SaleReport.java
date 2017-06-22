@@ -24,7 +24,6 @@ public class SaleReport {
 			if (msg.getClass() == MessageTypeOne.class || msg.getClass() == MessageTypeTwo.class){
 				//MessageType One or Two
 				if (saleReportHashMap.get(saleInMessage.getProductType()) == null){
-					//need to clone?
 					ArrayList<Sale> productSaleDetailList = new ArrayList<Sale>();
 					productSaleDetailList.add(saleInMessage);
 					saleReportHashMap.put(saleInMessage.getProductType(), productSaleDetailList);

@@ -1,5 +1,7 @@
 package com.johnny.exercise.messages;
 
+import java.text.DecimalFormat;
+
 public class MessageTypeThree extends Message{
 
 	private String operation;
@@ -33,6 +35,33 @@ public class MessageTypeThree extends Message{
 
 	public void setProcessed(boolean isProcessed) {
 		this.isProcessed = isProcessed;
+	}
+	
+	@Override
+	public String toString(){
+		
+		DecimalFormat df = new DecimalFormat();
+		df.setMaximumFractionDigits(2);
+		df.setMinimumFractionDigits(2);
+		
+		
+		float value = 0;
+		if (!this.operation.equals(MULTIPLYOPERATION)){
+			//for add and subtract
+			value = this.getSaleDetails().getSalePrice();
+		}
+		else{
+			value = this.multiplier;
+		}
+		
+		String result = "";
+		result += "[";
+		result += " Operation: " + this.operation;		
+		result += " Value: " + df.format(value);
+		result += "]";
+		
+		return result;
+		
 	}
 	
 	
