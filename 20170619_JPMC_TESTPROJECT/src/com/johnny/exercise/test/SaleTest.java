@@ -19,24 +19,31 @@ public class SaleTest {
 	@Test
 	public void testRecordSale() {
 		MessageTest mt = new MessageTest();
+		File testMessage = null;
 		
 		try {
-			File testMessage = mt.createTestMessage();
-			MainProgram testpg = new MainProgram();
-			testpg.readAndProcessMessage(new File[]{testMessage});
-			ArrayList<Sale> saleList = new ArrayList<Sale>();
-			
-			for (Message msg : testpg.getMessageList()){
-				saleList.add(msg.getSaleDetails());
-			}
-			
-			String actualSaleRecord = saleList.toString();
-			System.out.println(actualSaleRecord);
-			assertEquals(expectedSaleRecord, actualSaleRecord);
-			mt.deleteTestMessage();
+			testMessage = mt.createTestMessage();
 		} catch (IOException e) {
-			e.printStackTrace();
+			mt.deleteTestMessage();
+			try {
+				testMessage = mt.createTestMessage();
+			} catch (IOException e1) {
+				fail("SaleTest retry failed, please run this test individually!");
+			}
 		}
+		
+		MainProgram testpg = new MainProgram();
+		testpg.readAndProcessMessage(new File[]{testMessage});
+		ArrayList<Sale> saleList = new ArrayList<Sale>();
+		
+		for (Message msg : testpg.getMessageList()){
+			saleList.add(msg.getSaleDetails());
+		}
+		
+		String actualSaleRecord = saleList.toString();
+		//System.out.println(actualSaleRecord);
+		mt.deleteTestMessage();
+		assertEquals(expectedSaleRecord, actualSaleRecord);
 		
 	}
 

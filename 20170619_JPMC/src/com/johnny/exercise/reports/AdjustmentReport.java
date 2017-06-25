@@ -1,15 +1,11 @@
 package com.johnny.exercise.reports;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.johnny.exercise.messages.Message;
-import com.johnny.exercise.messages.MessageTypeOne;
 import com.johnny.exercise.messages.MessageTypeThree;
-import com.johnny.exercise.messages.MessageTypeTwo;
-import com.johnny.exercise.sales.Sale;
 
 public class AdjustmentReport {
 	
@@ -39,20 +35,26 @@ public class AdjustmentReport {
 		return TypeThreeMessageHashMap;
 	}
 	
-	public static void generateReport(HashMap<String, ArrayList<MessageTypeThree>> TypeThreeMessageHashMap){
-		System.out.println("###Start of Adjustment Report###");
+	public static String generateReportString(HashMap<String, ArrayList<MessageTypeThree>> TypeThreeMessageHashMap){
+		String result = "";
+		result += "###Start of Adjustment Report###" + System.lineSeparator();
 		
 		for(Entry<String, ArrayList<MessageTypeThree>> entry : TypeThreeMessageHashMap.entrySet()) {
 		    String key = entry.getKey();
 		    ArrayList<MessageTypeThree> adjMsgGroupedByProduct = entry.getValue();
 		    
-		    System.out.println("Product : " + key);
+		    //System.out.println("Product : " + key);
+		    result += "Product : " + key + System.lineSeparator();
 		    
 		    for(int i=0; i<adjMsgGroupedByProduct.size(); i++){
-		    	System.out.println("Adjustment " + i + ": " + adjMsgGroupedByProduct.get(i));
+		    	//System.out.println("Adjustment " + i + ": " + adjMsgGroupedByProduct.get(i));
+		    	result += "Adjustment " + i + ": " + adjMsgGroupedByProduct.get(i).getOperationDetails() + System.lineSeparator();
 		    }
 		    
 		}
-		System.out.println("###End of Adjustment Report###");
+		//System.out.println("###End of Adjustment Report###");
+		result += "###End of Adjustment Report###" + System.lineSeparator();
+		
+		return result;
 	}
 }

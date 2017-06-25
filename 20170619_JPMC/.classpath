@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/johnn/git/ProgrammingExercise/ExternalJars/commons-io-2.5.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Users/johnn/git/ProgrammingExercise/20170619_JPMC/ExternalJars/commons-io-2.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

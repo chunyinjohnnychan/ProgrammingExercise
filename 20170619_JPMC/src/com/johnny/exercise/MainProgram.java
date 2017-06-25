@@ -11,8 +11,6 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
-import sun.security.provider.certpath.AdjacencyList;
-
 import com.johnny.exercise.messages.Message;
 import com.johnny.exercise.messages.MessageTypeOne;
 import com.johnny.exercise.messages.MessageTypeThree;
@@ -25,11 +23,11 @@ public class MainProgram {
 
 	private boolean isPaused = false;
 	private ArrayList<Message> messageList = null;
-	private static final String INPUTFILEFOLDER = "C:/Users/johnn/git/ProgrammingExercise/InputFiles";
-	private static final String OUTPUTFILEFOLDER = "C:/Users/johnn/git/ProgrammingExercise/OutputFiles";
+	private static final String INPUTFILEFOLDER = "C:/Users/johnn/git/ProgrammingExercise/20170619_JPMC/InputFiles";
+	private static final String OUTPUTFILEFOLDER = "C:/Users/johnn/git/ProgrammingExercise/20170619_JPMC_TESTPROJECT/OutputFiles";
 	private int messageCount = 0;
-	private static int SALEREPORTTRIGGER = 10;
-	private static int ADJUSTMENTREPORTTRIGGER = 50;
+	private int SALEREPORTTRIGGER = 10;
+	private int ADJUSTMENTREPORTTRIGGER = 50;
 	private static final boolean isDebugModeOn = false;
 
 	public MainProgram(){
@@ -109,16 +107,17 @@ public class MainProgram {
 					if (messageCount % SALEREPORTTRIGGER == 0){
 
 						try {
-							HashMap<String, ArrayList<Sale>> saleReportHashMap = SaleReport.processData(this.messageList);
-							SaleReport.generateReport(saleReportHashMap);
+							String saleReportString = this.processSaleReport();
+							System.out.println(saleReportString);
+							
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
 
 					if (messageCount % ADJUSTMENTREPORTTRIGGER == 0){
-						HashMap<String, ArrayList<MessageTypeThree>> TypeThreeMessageHashMap = AdjustmentReport.processData(this.messageList);
-						AdjustmentReport.generateReport(TypeThreeMessageHashMap);
+						String reportString = this.processAdjustmentReport();
+						System.out.println(reportString);
 
 						this.isPaused = true;
 						System.out.println("Please enter Y to resume the programe : ");
@@ -142,7 +141,13 @@ public class MainProgram {
 				try {
 					FileUtils.moveFile(file, destinationFile);
 				} catch (IOException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
+					FileUtils.deleteQuietly(destinationFile);
+					try {
+						FileUtils.moveFile(file, destinationFile);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 
@@ -159,23 +164,23 @@ public class MainProgram {
 		this.messageList = messageList;
 	}
 
-	public static int getSALEREPORTTRIGGER() {
+	public int getSALEREPORTTRIGGER() {
 		return SALEREPORTTRIGGER;
 	}
 
-	public static void setSALEREPORTTRIGGER(int sALEREPORTTRIGGER) {
+	public void setSALEREPORTTRIGGER(int sALEREPORTTRIGGER) {
 		SALEREPORTTRIGGER = sALEREPORTTRIGGER;
 	}
 
-	public static int getADJUSTMENTREPORTTRIGGER() {
+	public int getADJUSTMENTREPORTTRIGGER() {
 		return ADJUSTMENTREPORTTRIGGER;
 	}
 
-	public static void setADJUSTMENTREPORTTRIGGER(int aDJUSTMENTREPORTTRIGGER) {
+	public void setADJUSTMENTREPORTTRIGGER(int aDJUSTMENTREPORTTRIGGER) {
 		ADJUSTMENTREPORTTRIGGER = aDJUSTMENTREPORTTRIGGER;
 	}
 
-	public static String getInputfilefolder() {
+	public String getInputfilefolder() {
 		return INPUTFILEFOLDER;
 	}
 
@@ -185,6 +190,19 @@ public class MainProgram {
 
 	public int getMessageCount() {
 		return messageCount;
+	}
+	
+	public String processAdjustmentReport(){
+		HashMap<String, ArrayList<MessageTypeThree>> TypeThreeMessageHashMap = AdjustmentReport.processData(this.messageList);
+		String reportString = AdjustmentReport.generateReportString(TypeThreeMessageHashMap);
+		return reportString;
+	}
+	
+	public String processSaleReport() throws Exception{
+		HashMap<String, ArrayList<Sale>> saleReportHashMap = SaleReport.processData(this.messageList);
+		String reportString = SaleReport.generateReportString(saleReportHashMap);
+		return reportString;
+		
 	}
 
 }

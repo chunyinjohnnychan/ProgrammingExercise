@@ -50,13 +50,13 @@ public class SaleReport {
 						String operationRequired = msgTypeThree.getOperation();
 
 						for (Sale saleElement : productSaleDetailList){
-							if (operationRequired.equals(msgTypeThree.ADDOPERATION)){
+							if (operationRequired.equals(MessageTypeThree.ADDOPERATION)){
 								saleElement.setSalePrice(saleElement.getSalePrice() + saleInMessage.getSalePrice());
 							}
-							else if (operationRequired.equals(msgTypeThree.SUBSTRACTOPERATION)){
+							else if (operationRequired.equals(MessageTypeThree.SUBSTRACTOPERATION)){
 								saleElement.setSalePrice(saleElement.getSalePrice() - saleInMessage.getSalePrice());
 							}
-							else if (operationRequired.equals(msgTypeThree.MULTIPLYOPERATION)){
+							else if (operationRequired.equals(MessageTypeThree.MULTIPLYOPERATION)){
 								saleElement.setSalePrice(saleElement.getSalePrice() * msgTypeThree.getMultiplier());
 							}
 						}
@@ -70,8 +70,11 @@ public class SaleReport {
 	}
 
 
-	public static void generateReport(HashMap<String, ArrayList<Sale>> saleReportHashMap){
-		System.out.println("***Start of Sale Report***");
+	public static String generateReportString(HashMap<String, ArrayList<Sale>> saleReportHashMap){
+		
+		String result = "";
+		//System.out.println("***Start of Sale Report***");
+		result += "***Start of Sale Report***" + System.lineSeparator();
 		
 		for(Entry<String, ArrayList<Sale>> entry : saleReportHashMap.entrySet()) {
 		    String key = entry.getKey();
@@ -95,11 +98,19 @@ public class SaleReport {
 			df.setMinimumFractionDigits(2);
 			
 		    
-		    System.out.println("Product: " + key);
-		    System.out.println("Number of Sales of " + key + " : " + numOfSale);
-		    System.out.println("Total Value of " + key + " : " + df.format(totalValue));
+		    //System.out.println("Product: " + key);
+			result += "Product: " + key +System.lineSeparator();
+			
+		    //System.out.println("Number of Sales of " + key + " : " + numOfSale);
+			result += "Number of Sales of " + key + " : " + numOfSale + System.lineSeparator();
+			
+		    //System.out.println("Total Value of " + key + " : " + df.format(totalValue));
+			result += "Total Value of " + key + " : " + df.format(totalValue) + System.lineSeparator();
 		}
-		System.out.println("***End of Sale Report***");
+		//System.out.println("***End of Sale Report***");
+		result += "***End of Sale Report***" + System.lineSeparator();
+		
+		return result;
 	}
 
 	private static boolean isProductTypeExistInMap(HashMap<String, ArrayList<Sale>> productHashMap, Sale _tmpSale){

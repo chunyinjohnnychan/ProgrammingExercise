@@ -40,6 +40,22 @@ public class MessageTypeThree extends Message{
 	@Override
 	public String toString(){
 		
+		String result = "";
+		result += "[";
+		result += this.getBasicMessageInformation();
+		result += this.getOperationDetails();
+		result += "]";
+		
+		return result;
+		
+	}
+	
+	public MessageTypeThree(){
+		this.setMessageTypeNumber(3);
+	}
+	
+	public String getOperationDetails(){
+		
 		DecimalFormat df = new DecimalFormat();
 		df.setMaximumFractionDigits(2);
 		df.setMinimumFractionDigits(2);
@@ -55,18 +71,10 @@ public class MessageTypeThree extends Message{
 		}
 		
 		String result = "";
-		result += "[";
-		result += this.getBasicMessageInformation();
 		result += " Operation: " + this.operation;		
 		result += " Value: " + df.format(value);
-		result += "]";
 		
 		return result;
-		
-	}
-	
-	public MessageTypeThree(){
-		this.setMessageTypeNumber(3);
 	}
 	
 }

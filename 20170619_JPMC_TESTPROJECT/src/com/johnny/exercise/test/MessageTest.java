@@ -21,23 +21,29 @@ public class MessageTest {
 	@Test
 	public void testReadMessage() {
 
+		File testMessage = null;
+		
 		try {
-			File testMessage = createTestMessage();
-			MainProgram testpg = new MainProgram();
-			testpg.readAndProcessMessage(new File[]{testMessage});
-			//System.out.println(testpg.getMessageList().toString());
-			String resultMessageList = testpg.getMessageList().toString();
-			assertEquals(expectedMessageList, resultMessageList);
-			this.deleteTestMessage();
-			
+			testMessage = createTestMessage();
 		} catch (IOException e) {
-			e.printStackTrace();
+			this.deleteTestMessage();
+			try {
+				testMessage = this.createTestMessage();
+			} catch (IOException e1) {
+				fail("MessageTest retry failed, please run this test individually!");
+			}
 		}
 		
+		MainProgram testpg = new MainProgram();
+		testpg.readAndProcessMessage(new File[]{testMessage});
+		//System.out.println(testpg.getMessageList().toString());
+		String resultMessageList = testpg.getMessageList().toString();
+		this.deleteTestMessage();
+		assertEquals(expectedMessageList, resultMessageList);
 	}
 	
 	File createTestMessage() throws IOException{
-        String csvFile = "C:/Users/johnn/git/ProgrammingExercise/InputFiles/test.csv";
+        String csvFile = "C:/Users/johnn/git/ProgrammingExercise/20170619_JPMC/InputFiles/test.csv";
         FileWriter writer = new FileWriter(csvFile);
 
         CSVUtils.writeLine(writer, Arrays.asList("1","APPLE","0.1" ,"1" ,""        ,""));
@@ -53,10 +59,10 @@ public class MessageTest {
 	}
 	
 	void deleteTestMessage(){
-		File inputTestFile = new File( "C:/Users/johnn/git/ProgrammingExercise/InputFiles/test.csv");
+		File inputTestFile = new File( "C:/Users/johnn/git/ProgrammingExercise/20170619_JPMC/InputFiles/test.csv");
 		FileUtils.deleteQuietly(inputTestFile);
 		
-		File testfile = new File("C:/Users/johnn/git/ProgrammingExercise/OutputFiles/test.csv");
+		File testfile = new File("C:/Users/johnn/git/ProgrammingExercise/20170619_JPMC/OutputFiles/test.csv");
 		FileUtils.deleteQuietly(testfile);
 	}
 
