@@ -56,6 +56,7 @@ public class MessageTypeThree extends Message{
 		
 		String result = "";
 		result += "[";
+		result += this.getBasicMessageInformation();
 		result += " Operation: " + this.operation;		
 		result += " Value: " + df.format(value);
 		result += "]";
@@ -64,5 +65,8 @@ public class MessageTypeThree extends Message{
 		
 	}
 	
+	public MessageTypeThree(){
+		this.setMessageTypeNumber(3);
+	}
 	
 }
